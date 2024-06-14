@@ -37,7 +37,7 @@ export class PokemonService {
     try {
       let pokemon: Pokemon;
       if (!isNaN(+term)) {
-        pokemon = await this.PokemonModel.findOne({ no: term });
+        pokemon = await this.PokemonModel.findOne({ no: term }).select('-__v');
       }
 
       // mongo id
@@ -80,24 +80,19 @@ export class PokemonService {
   }
 
   async remove(id: string) {
-    try {
-      const pokemon: Pokemon = await this.findOne(id)
-      console.log(pokemon)
-      await pokemon.deleteOne()
-      return { id }
-    
+   
+      // const pokemon: Pokemon = await this.findOne(id)
       
-    } catch (error) {
-      if(error.response.statusCode === 500){
-        throw new NotFoundException("pokemon no existe")
-        }
-      console.log(error)    
-      throw new InternalServerErrorException(`check server logs`)
-    }
+      // const pokemonDeleted = await this.PokemonModel.deleteOne({_id: id}).select('-__v')
+      const pokemonDeleted = await this.PokemonModel.findByIdAndDelete({_id: id}).select('-__v')
+
+      if(!pokemonDeleted){
+        throw new NotFoundException(`Pokemon not found`)
+      }
+       
+      return pokemonDeleted
 
 
-
-  
   }
 
   private handleExceptions(error: any){
