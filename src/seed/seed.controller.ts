@@ -7,6 +7,7 @@ export class SeedController {
 
   @Get()
   executeSeed() {
+    console.log("semilla")
     return this.seedService.executedSeed();
   }
 

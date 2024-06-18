@@ -14,6 +14,11 @@ export class PokemonController {
     return this.pokemonService.create(createPokemonDto);
   }
 
+  @Get('all')
+  removeAll() {
+    return this.pokemonService.removeAll()
+  }
+
   @Get()
   findAll() {
     return this.pokemonService.findAll();
@@ -33,4 +38,6 @@ export class PokemonController {
   remove(@Param('id', ParseMongoIdPipe) id: string) {
     return this.pokemonService.remove(id);
   }
+
+
 }

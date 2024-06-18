@@ -34,9 +34,11 @@ export class PokemonService {
   }
 
   async findOne(term: string) {
+    console.log(term)
     try {
       let pokemon: Pokemon;
       if (!isNaN(+term)) {
+        console.log(!isNaN(+term))
         pokemon = await this.PokemonModel.findOne({ no: term }).select('-__v');
       }
 
@@ -91,8 +93,18 @@ export class PokemonService {
       }
        
       return pokemonDeleted
+  }
 
-
+  async removeAll(){
+    try {
+      console.log('pokemon deleted')
+      await this.PokemonModel.deleteMany({})
+      return {mesaage:"pokemonDeleted"}
+      
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerErrorException(`check server logs`)
+    }
   }
 
   private handleExceptions(error: any){
