@@ -13,7 +13,7 @@ export class AxiosAdapter implements HttpAdapter {
            return data
         } catch (error) {
             console.log(error)
-            throw new NotFoundException('server error')
+            throw new Error('check logs')
         }
         
     }
